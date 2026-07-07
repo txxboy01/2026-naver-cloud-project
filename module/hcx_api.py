@@ -1,36 +1,50 @@
-# 하이퍼 클로바 x API 호출 모듈
+
 import requests
 import json
+import os
+import uuid  # 요청마다 고유 ID를 만들기 위해 필요
+from dotenv import load_dotenv
+
+# .env 파일 로드 (최상위 폴더에 있어야 합니다)
+load_dotenv()
 
 def call_hyperclova(prompt):
-    # 1. API 주소와 인증 정보 설정
-    api_url = "여기에 네이버에서 받은 API URL을 넣으세요"
-    api_key = "내 API Key"
-    secret_key = "내 Secret Key"
+    """
+    하이퍼클로바X API를 호출하여 답변을 받아오는 함수
+    """
+    # .env에서 설정값 불러오기
+    api_url = os.getenv("CLOVA_API_URL")
+    api_key = os.getenv("CLOVA_API_KEY")
+    secret_key = os.getenv("SECRET_KEY")
 
-    # 2. 통신을 위한 약속(헤더) 정하기
+    # 헤더 설정
     headers = {
         "X-NCP-CLOVAAPI-KEY": api_key,
         "X-NCP-APIGW-API-KEY": secret_key,
+        "X-NCP-CLOVAAPI-REQUEST-ID": str(uuid.uuid4()), # 매번 새로운 고유 ID 생성
         "Content-Type": "application/json; charset=utf-8"
     }
 
-    # 3. AI에게 보낼 메시지 (질문)
+    # 대화 데이터 설정
     data = {
         "messages": [
-            {"role": "system", "content": "너는 똑똑한 비서야."},
+            {"role": "system", "content": "너는 기술 논문을 분석하는 전문 비서야."},
             {"role": "user", "content": prompt}
         ],
         "temperature": 0.5,
         "maxTokens": 500
     }
 
-    # 4. AI에게 요청 보내기
-    response = requests.post(api_url, headers=headers, json=data)
-
-    # 5. 결과 받아서 돌려주기
-    if response.status_code == 200:
-        result = response.json()
-        return result['result']['message']['content']
-    else:
-        return f"에러가 났어! 번호: {response.status_code}"
+    try:
+        # API 호출
+        response = requests.post(api_url, headers=headers, json=json.dumps(data))
+        
+        # 결과 확인
+        if response.status_code == 200:
+            result = response.json()
+            return result['result']['message']['content']
+        else:
+            return f"에러 발생! 상태 코드: {response.status_code}, 상세 내용: {response.text}"
+            
+    except Exception as e:
+        return f"통신 중 오류가 발생했습니다: {str(e)}"
