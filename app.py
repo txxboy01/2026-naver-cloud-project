@@ -1,5 +1,5 @@
 # app.py
-from module.hcx_api import call_hyperclova  # 우리가 만든 비서 호출
+from module.hcx_api import extract_keywords_from_idea # 우리가 만든 비서 호출
 from module.search import calculate_match_score # 점수 계산 로직
 import pandas as pd
 from sqlalchemy import create_engine  # 이 코드가 있어야 DB랑 대화할 수 있는 도구를 가져옵니다.python app.py
@@ -10,7 +10,7 @@ def main():
 
     # 2. 하이퍼클로바X에게 키워드 추출 요청
     print("\n[AI가 키워드를 분석 중입니다...]")
-    keywords = call_hyperclova(user_idea)
+    keywords = extract_keywords_from_idea(user_idea)
     print(f"추출된 키워드: {keywords}")
 
     # 3. 데이터 로드 (DB 방식)

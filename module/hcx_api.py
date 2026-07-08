@@ -27,8 +27,8 @@ def extract_keywords_from_idea(user_idea: str) -> list:
     url = f"{host}https://clovastudio.stream.ntruss.com/v3/chat-completions/HCX-005/" # 혹은 팀에서 지정한 모델 버전
     
     headers = {
-        "X-NCP-CLOVASTUDIO-API-KEY": "nv-73df2debe104488ebe50692a3f4dd05dkEbu",
-        "X-NCP-APIGW-API-KEY": "ncp_iam_BPASKRHOLtgrzNkJ0DPQ",
+        "X-NCP-CLOVASTUDIO-API-KEY": os.getenv("HCX_API_KEY"),
+        "X-NCP-APIGW-API-KEY": os.getenv("HCX_GATEWAY_KEY"),
         "Content-Type": "application/json"
     }
     
