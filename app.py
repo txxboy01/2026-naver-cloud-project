@@ -2,6 +2,7 @@
 from module.hcx_api import call_hyperclova  # 우리가 만든 비서 호출
 from module.search import calculate_match_score # 점수 계산 로직
 import pandas as pd
+from sqlalchemy import create_engine  # 이 코드가 있어야 DB랑 대화할 수 있는 도구를 가져옵니다.
 
 def main():
     # 1. 사용자로부터 아이디어 받기
@@ -12,9 +13,10 @@ def main():
     keywords = call_hyperclova(user_idea)
     print(f"추출된 키워드: {keywords}")
 
-    # 3. 데이터 로드 (논문 리스트 불러오기)
-    # 실제로는 DB에서 가져오겠지만, 지금은 테스트용 CSV 활용
-    df = pd.read_csv('data/paper.csv')
+    # 3. 데이터 로드 (DB 방식)
+    # 인프라 팀이 준 DB 접속 주소 그대로 사용
+    engine = create_engine('postgresql://유저명:비밀번호@호스트주소:5432/DB명')
+    df = pd.read_sql('SELECT * FROM papers', engine)
 
     # 4. 각 논문마다 점수 매기기
     print("[논문을 검색 중입니다...]")
