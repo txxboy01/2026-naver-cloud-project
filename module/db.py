@@ -11,11 +11,11 @@ def get_db_connection():
     """
     try:
         conn = psycopg2.connect(
-            host=os.getenv("DB_HOST"),
+            host=os.getenv("pg-488s3s.vpc-cdb-kr.ntruss.com"),
             port=os.getenv("DB_PORT", "5432"), # 기본값 5432
-            database=os.getenv("DB_NAME"),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD")
+            database=os.getenv("ncloud-project-001-9dpk"),
+            user=os.getenv("userid"),
+            password=os.getenv("lab!@1234")
         )
         return conn
     except Exception as e:

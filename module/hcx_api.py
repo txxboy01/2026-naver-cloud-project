@@ -24,11 +24,11 @@ def extract_keywords_from_idea(user_idea: str) -> list:
 
     # 2. HyperCLOVA X에게 내릴 명령(System Prompt)과 사용자 입력 세팅
     # 2일짜리 프로젝트이므로 Few-shot(예시)을 프롬프트에 직접 녹여 효율을 극대화합니다.
-    url = f"{host}/testapp/v1/chat-completions/HCX-003" # 혹은 팀에서 지정한 모델 버전
+    url = f"{host}https://clovastudio.stream.ntruss.com/v3/chat-completions/HCX-005/" # 혹은 팀에서 지정한 모델 버전
     
     headers = {
-        "X-NCP-CLOVASTUDIO-API-KEY": api_key,
-        "X-NCP-APIGW-API-KEY": gateway_key,
+        "X-NCP-CLOVASTUDIO-API-KEY": "nv-73df2debe104488ebe50692a3f4dd05dkEbu",
+        "X-NCP-APIGW-API-KEY": "ncp_iam_BPASKRHOLtgrzNkJ0DPQ",
         "Content-Type": "application/json"
     }
     
